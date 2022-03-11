@@ -1,0 +1,26 @@
+#include <iostream>
+#include <string>
+#include <vector> 
+#include <algorithm> 
+
+std::string to_si(char a)
+{
+    short int b = static_cast <short int>(a);
+    std::string str = std::to_string(b);
+    return str;
+}
+
+std::vector<bool> to_vec(std::string str)
+{
+    std::vector<bool> out;
+    // out.resize(3 * str.size())
+    for (char elem : str)
+    {
+        
+    }
+}
+
+int main()
+{
+    std::cout << to_si('g');
+}
