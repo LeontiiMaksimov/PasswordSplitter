@@ -3,24 +3,38 @@
 #include <vector> 
 #include <algorithm> 
 
-std::string to_si(char a)
+std::string toBinary(char m)
 {
-    short int b = static_cast <short int>(a);
-    std::string str = std::to_string(b);
-    return str;
+    int n = static_cast <int>(m);
+    std::string r;
+    while (n != 0)
+    {
+        r += ( n % 2 == 0 ? "0" : "1" );
+        n /= 2;
+    }
+    return r;
 }
 
-std::vector<bool> to_vec(std::string str)
+std::vector<std::string> to_vec(std::string str)
 {
-    std::vector<bool> out;
-    // out.resize(3 * str.size())
+    std::vector<std::string> out;
+    out.resize(str.size());
+    long long i = 0;
     for (char elem : str)
     {
-        
+        out[i] = toBinary(elem);
+        std::cout << out[i] << std::endl;
+        ++i;
     }
+    return out;
 }
 
 int main()
 {
-    std::cout << to_si('g');
+    char a;
+    while (true)
+    {
+        std::cin >> a;
+        std::cout << toBinary(a) << std::endl;
+    }
 }
