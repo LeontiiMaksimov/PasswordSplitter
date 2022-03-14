@@ -31,10 +31,10 @@ std::vector<std::string> to_vec(std::string str)
 
 int main()
 {
-    char a;
+    std::string str;
     while (true)
     {
-        std::cin >> a;
-        std::cout << toBinary(a) << std::endl;
+        std::cin >> str;
+        to_vec(str);
     }
 }
