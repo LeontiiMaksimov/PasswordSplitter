@@ -6,6 +6,12 @@
 #include <map>
 #include <functional>
 
+// random value generator (no filter)
+std::vector<bool> genVec(long long len)
+{
+    
+}
+
 
 // random boolean value generator
 bool randomBool() 
