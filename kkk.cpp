@@ -226,16 +226,4 @@ int main()
             printVec(elem);
         }
     }
-        
-        
-    while (true)
-    {
-        std::cin >> str;
-        str = toStr(xorVec(genVecFiltered(184), genVecFiltered(184)));
-        for (char elem : str)
-        {
-            std::cout << elem;
-        }
-        std::cout << " ";
-    }
 }
