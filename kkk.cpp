@@ -169,7 +169,7 @@ std::vector<bool> toBinary(char m)
 
 
 // string -> vector of vector of binary values
-std::vector<bool> to_vec(const std::string& str)
+std::vector<bool> toVec(const std::string& str)
 {
     std::vector<bool> out;
     out.resize(str.size() * 8);
@@ -196,7 +196,38 @@ int main()
     std::cin >> value;
     std::system("clear");
 
-    if (
+    if (value)
+    {
+        std::cout << "Enter how many sub-passwords you want [min = 2]" << std::endl;
+        long long n;
+        std::string password;
+        std::cin >> n;
+        std::vector<std::vector<bool>> keys (n)
+        std::system("clear");
+        std::cout << "Enter the password" << std::endl;
+        std::cin >> password;
+        std::system("clear");
+        std::vector<bool> parentVec(password.size() * 8);
+        for (int i = 1; i < n; ++i)
+        {
+            keys[i] = genVec(password.size() * 8);
+            if (i == 1)
+            {
+                parentVec = keys[1];
+            }
+            else
+            {
+                parentVec = xorVec(parentVec, keys[i]);
+            }
+        }
+        keys[0] = compVec(toVec(password), parentVec);
+        for (std::vector<bool> elem : keys)
+        {
+            printVec(elem);
+        }
+    }
+        
+        
     while (true)
     {
         std::cin >> str;
