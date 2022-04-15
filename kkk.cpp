@@ -6,6 +6,7 @@
 #include <map>
 #include <functional>
 
+
 // bolean vector -> char
 char toChar(std::vector<bool> vec)
 {
@@ -49,7 +50,9 @@ std::string toStr(std::vector<bool> vec)
 // check if the char is valid
 bool validVec(const std::vector<bool>& vec)
 {
-    if (toChar(vec)) < 127 && toChar(vec)) > 31)
+    char letter;
+    letter = toChar(vec);
+    if (letter < 127 && letter > 31)
     {
         return true;
     }
@@ -75,7 +78,7 @@ std::vector<bool> genVec(long long len)
     return vector;
 }
 
-// random value generator filtered
+// random value generator filtered **make more efficient**
 std::vector<bool> genVecFiltered(long long len)
 {
     long long batch = len / 8;
@@ -93,7 +96,9 @@ std::vector<bool> genVecFiltered(long long len)
         }
         for (bool elem : batchVec)
         {
-            vector.push_back(
+            vector.push_back(elem);
+        }
+        std::fill(batchVec.begin(), batchVec.end(), 0);
     }
     return vector;
 }
@@ -150,7 +155,7 @@ int main()
     while (true)
     {
         std::cin >> str;
-        str = toStr(genVec(184));
+        str = toStr(genVecFiltered(184));
         for (char elem : str)
         {
             std::cout << elem;
