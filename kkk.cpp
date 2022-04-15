@@ -6,9 +6,47 @@
 #include <map>
 #include <functional>
 
+// print a vector (bool)
+void printVec(const std::vector<bool>& vec)
+{
+    for (bool elem : vec)
+    {
+        std::cout << elem;
+    }
+    std::cout << std::endl;
+}
+    
+// find a complementary vector to XOR to the resultant
+std::vector<bool> compVec(const std::vector<bool>& finalVec, const std::vector<bool>& parentVec)
+{
+    std::vector<bool> out (parentVec.size());
+    for (long long i = 0; i < out.size(); ++i)
+    {
+        if (parentVec[i] ^ 0 == finalVec[i])
+        {
+            out[i] = 0;
+        }
+        else
+        {
+            out[i] = 1;
+        }
+    }
+}
+
+// XOR vector operation
+std::vector<bool> xorVec(const std::vector<bool>& vec1, const std::vector<bool>& vec2)
+{
+    std::vector<bool> vecOut (vec1.size());
+    for (long long i = 0; i < vecOut.size(); ++i)
+    {
+        vecOut[i] = (vec1[i] ^ vec2[i]);
+    }
+    return vecOut;
+}
+    
 
 // bolean vector -> char
-char toChar(std::vector<bool> vec)
+char toChar(const std::vector<bool>& vec)
 {
     short int i = 128;
     char out = 0;
@@ -24,7 +62,7 @@ char toChar(std::vector<bool> vec)
 }
 
 // vector of vectors of binary values -> string
-std::string toStr(std::vector<bool> vec)
+std::string toStr(const std::vector<bool>& vec)
 {
     std::string out;
     std::vector<bool> temp(8);
@@ -71,7 +109,7 @@ std::vector<bool> genVec(long long len)
 {
     std::vector<bool> vector;
     vector.resize(len);
-    for (int i = 0; i < len; ++i)
+    for (long long i = 0; i < len; ++i)
     {
         vector[i] = randomBool();
     }
@@ -85,11 +123,11 @@ std::vector<bool> genVecFiltered(long long len)
     std::vector<bool> batchVec(8, 0);
     std::vector<bool> vector;
     vector.resize(len);
-    for (int i = 0; i < len / 8; ++i)
+    for (long long i = 0; i < len / 8; ++i)
     {
         while (!validVec(batchVec))
         {
-            for (int j = 1; j < 8; ++j)
+            for (long long j = 1; j < 8; ++j)
             {
                 batchVec[j] = randomBool();
             }
@@ -131,7 +169,7 @@ std::vector<bool> toBinary(char m)
 
 
 // string -> vector of vector of binary values
-std::vector<bool> to_vec(std::string str)
+std::vector<bool> to_vec(const std::string& str)
 {
     std::vector<bool> out;
     out.resize(str.size() * 8);
@@ -152,10 +190,17 @@ std::vector<bool> to_vec(std::string str)
 int main()
 {
     std::string str;
+    std::cout << "Enter 0 to make decrypt password and 1 to encrypt it)" << std::endl;
+    std::cout << std::endl;
+    bool value;
+    std::cin >> value;
+    std::system("clear");
+
+    if (
     while (true)
     {
         std::cin >> str;
-        str = toStr(genVecFiltered(184));
+        str = toStr(xorVec(genVecFiltered(184), genVecFiltered(184)));
         for (char elem : str)
         {
             std::cout << elem;
