@@ -14,6 +14,7 @@ void printVec(const std::vector<bool>& vec)
         std::cout << elem;
     }
     std::cout << std::endl;
+    std::cout << std::endl;
 }
     
 // find a complementary vector to XOR to the resultant
@@ -31,6 +32,7 @@ std::vector<bool> compVec(const std::vector<bool>& finalVec, const std::vector<b
             out[i] = 1;
         }
     }
+    return out;
 }
 
 // XOR vector operation
@@ -167,7 +169,6 @@ std::vector<bool> toBinary(char m)
     return vec;
 }
 
-
 // string -> vector of vector of binary values
 std::vector<bool> toVec(const std::string& str)
 {
@@ -185,45 +186,48 @@ std::vector<bool> toVec(const std::string& str)
     return out;
 }
 
-
+// generate keys (not filtered)
+void genUnfiltered()
+{
+    
+    std::cout << "Enter how many sub-passwords you want [min = 2]" << std::endl;
+    long long n;
+    std::string password;
+    std::cin >> n;
+    std::vector<std::vector<bool>> keys (n);
+    std::system("clear");
+    std::cout << "Enter the password" << std::endl;
+    std::cin >> password;
+    std::system("clear");
+    std::vector<bool> parentVec(password.size() * 8);
+    for (int i = 1; i < n; ++i)
+    {
+        keys[i] = genVec(password.size() * 8);
+        if (i == 1)
+        {
+            parentVec = keys[1];
+        }
+        else
+        {
+            parentVec = xorVec(parentVec, keys[i]);
+        }
+    }
+    keys[0] = compVec(toVec(password), parentVec);
+    for (std::vector<bool> elem : keys)
+    {
+        printVec(elem);
+    }
+}
 
 int main()
 {
     std::string str;
     std::cout << "Enter 0 to make decrypt password and 1 to encrypt it)" << std::endl;
-    std::cout << std::endl;
     bool value;
     std::cin >> value;
     std::system("clear");
-
     if (value)
     {
-        std::cout << "Enter how many sub-passwords you want [min = 2]" << std::endl;
-        long long n;
-        std::string password;
-        std::cin >> n;
-        std::vector<std::vector<bool>> keys (n)
-        std::system("clear");
-        std::cout << "Enter the password" << std::endl;
-        std::cin >> password;
-        std::system("clear");
-        std::vector<bool> parentVec(password.size() * 8);
-        for (int i = 1; i < n; ++i)
-        {
-            keys[i] = genVec(password.size() * 8);
-            if (i == 1)
-            {
-                parentVec = keys[1];
-            }
-            else
-            {
-                parentVec = xorVec(parentVec, keys[i]);
-            }
-        }
-        keys[0] = compVec(toVec(password), parentVec);
-        for (std::vector<bool> elem : keys)
-        {
-            printVec(elem);
-        }
+        genUnfiltered();
     }
 }
