@@ -186,15 +186,14 @@ std::vector<bool> toVec(const std::string& str)
     return out;
 }
 
-// generate keys (not filtered)
+// generate keys (not filtered) **optimize + dont save**
 void genUnfiltered()
 {
-    
-    std::cout << "Enter how many sub-passwords you want [min = 2]" << std::endl;
     long long n;
     std::string password;
-    std::cin >> n;
     std::vector<std::vector<bool>> keys (n);
+    std::cout << "Enter how many sub-passwords you want [min = 2]" << std::endl;
+    std::cin >> n;
     std::system("clear");
     std::cout << "Enter the password" << std::endl;
     std::cin >> password;
@@ -219,15 +218,57 @@ void genUnfiltered()
     }
 }
 
+// decrypt **optimize + dont save**
+void decrypt()
+{
+    long long n;
+    std::string password;
+    std::vector<std::vector<bool>> keys (n);
+    std::vector<bool> out;
+    std::string tempVal;
+    std::cout << "Enter how many sub-passwords you have [min = 2]" << std::endl;
+    std::cin >> n;
+    std::system("clear");
+    std::cout << "Enter all keys seperated by a space or enter" << std::endl;
+    for (long long i = 0; i < n; ++i)
+    {
+        std::cin >> tempVal;
+        for (char elem : tempVal)
+        {
+            if (elem == '0')
+            {
+                keys[i].push_back(0);
+            }
+            else
+            {
+                keys[i].push_back(1);
+            }
+        }
+    }
+    out = keys[0];
+    for (int i = 1; i < n; ++i)
+    {
+        out = xorVec(out, keys[i]);
+    }
+    printVec(out);
+}
+    
+
+    
 int main()
 {
     std::string str;
-    std::cout << "Enter 0 to make decrypt password and 1 to encrypt it)" << std::endl;
+    std::cout << "Enter 0 to make decrypt password and 1 to encrypt it" << std::endl;
     bool value;
     std::cin >> value;
     std::system("clear");
     if (value)
     {
         genUnfiltered();
+    }
+    else
+    {
+        std::cout << "cum" << std::endl;
+        decrypt();
     }
 }
