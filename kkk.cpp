@@ -6,6 +6,17 @@
 #include <map>
 #include <functional>
 
+#ifdef __unix__
+    #define conClear "clear"
+#endif
+
+#ifdef _WIN32
+    #define conClear "cls"
+#endif
+
+// decimal to binary 
+// here
+
 // print a vector (bool)
 void printVec(const std::vector<bool>& vec)
 {
@@ -13,8 +24,7 @@ void printVec(const std::vector<bool>& vec)
     {
         std::cout << elem;
     }
-    std::cout << std::endl;
-    std::cout << std::endl;
+    std::cout << std::endl << std::endl << std::endl;
 }
     
 // find a complementary vector to XOR to the resultant
@@ -195,10 +205,10 @@ void genUnfiltered()
     std::cout << "Enter how many sub-passwords you want [min = 2]" << std::endl;
     std::cin >> n;
     keys.resize(n);
-    std::system("clear");
+    std::system(conClear);
     std::cout << "Enter the password" << std::endl;
     std::cin >> password;
-    std::system("clear");
+    std::system(conClear);
     std::vector<bool> parentVec(password.size() * 8);
     for (int i = 1; i < n; ++i)
     {
@@ -230,7 +240,7 @@ void decrypt()
     std::cout << "Enter how many sub-passwords you have [min = 2]" << std::endl;
     std::cin >> n;
     keys.resize(n);
-    std::system("clear");
+    std::system(conClear);
     std::cout << "Enter all keys seperated by a space or enter" << std::endl;
     for (long long i = 0; i < n; ++i)
     {
@@ -252,10 +262,77 @@ void decrypt()
     {
         out = xorVec(out, keys[i]);
     }
-    printVec(out);
+    std::cout << toStr(out) << std::endl;
 }
-    
 
+// decrypt {input - decimal number} finish 
+void decryptDec()
+{
+    long long n;
+    std::string password;
+    std::vector<std::vector<bool>> keys;
+    std::vector<bool> out;
+    std::string tempVal;
+    std::cout << "Enter how many sub-passwords you have [min = 2]" << std::endl;
+    std::cin >> n;
+    keys.resize(n);
+    std::system(conClear);
+    std::cout << "Enter all keys seperated by a space or enter" << std::endl;
+    for (long long i = 0; i < n; ++i)
+    {
+        std::cin >> tempVal;
+        for (char elem : tempVal)
+        {
+            if (elem == '0')
+            {
+                keys[i].push_back(0);
+            }
+            else
+            {
+                keys[i].push_back(1);
+            }
+        }
+    }
+    out = keys[0];
+    for (int i = 1; i < n; ++i)
+    {
+        out = xorVec(out, keys[i]);
+    }
+    std::cout << toStr(out) << std::endl;
+}
+
+// generate keys (not filtered) **optimize + dont save**
+void genUnfilteredDec()
+{
+    long long n;
+    std::string password;
+    std::vector<std::vector<bool>> keys;
+    std::cout << "Enter how many sub-passwords you want [min = 2]" << std::endl;
+    std::cin >> n;
+    keys.resize(n);
+    std::system(conClear);
+    std::cout << "Enter the password" << std::endl;
+    std::cin >> password;
+    std::system(conClear);
+    std::vector<bool> parentVec(password.size() * 8);
+    for (int i = 1; i < n; ++i)
+    {
+        keys[i] = genVec(password.size() * 8);
+        if (i == 1)
+        {
+            parentVec = keys[1];
+        }
+        else
+        {
+            parentVec = xorVec(parentVec, keys[i]);
+        }
+    }
+    keys[0] = compVec(toVec(password), parentVec);
+    for (std::vector<bool> elem : keys)
+    {
+        printVec(elem);
+    }
+}
     
 int main()
 {
@@ -263,7 +340,7 @@ int main()
     std::cout << "Enter 0 to make decrypt password and 1 to encrypt it" << std::endl;
     bool value;
     std::cin >> value;
-    std::system("clear");
+    std::system(conClear);
     if (value)
     {
         genUnfiltered();
