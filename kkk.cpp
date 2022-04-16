@@ -191,9 +191,10 @@ void genUnfiltered()
 {
     long long n;
     std::string password;
-    std::vector<std::vector<bool>> keys (n);
+    std::vector<std::vector<bool>> keys;
     std::cout << "Enter how many sub-passwords you want [min = 2]" << std::endl;
     std::cin >> n;
+    keys.resize(n);
     std::system("clear");
     std::cout << "Enter the password" << std::endl;
     std::cin >> password;
@@ -223,11 +224,12 @@ void decrypt()
 {
     long long n;
     std::string password;
-    std::vector<std::vector<bool>> keys (n);
+    std::vector<std::vector<bool>> keys;
     std::vector<bool> out;
     std::string tempVal;
     std::cout << "Enter how many sub-passwords you have [min = 2]" << std::endl;
     std::cin >> n;
+    keys.resize(n);
     std::system("clear");
     std::cout << "Enter all keys seperated by a space or enter" << std::endl;
     for (long long i = 0; i < n; ++i)
@@ -268,7 +270,6 @@ int main()
     }
     else
     {
-        std::cout << "aaa" << std::endl;
         decrypt();
     }
 }
