@@ -268,7 +268,7 @@ int main()
     }
     else
     {
-        std::cout << "cum" << std::endl;
+        std::cout << "aaa" << std::endl;
         decrypt();
     }
 }
