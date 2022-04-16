@@ -327,7 +327,7 @@ void genUnfilteredDec()
             parentVec = xorVec(parentVec, keys[i]);
         }
     }
-    keys[0] = compVec(toVec(password), parentVec);
+    keys[0] = xorVec(password, parentVec)
     for (std::vector<bool> elem : keys)
     {
         printVec(elem);
