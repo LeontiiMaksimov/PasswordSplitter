@@ -5,7 +5,7 @@
 #include <random>
 #include <map>
 #include <functional>
-#include "bigint.h"
+#include "bigint.h" // <3
 
 #ifdef __unix__
     #define conClear "clear"
@@ -15,17 +15,57 @@
     #define conClear "cls"
 #endif
 
-//binary to decimal
-bigint toDec(std::vector<bool> num);
+//bigint to char
+char bigToChar(bigint num)
 {
-    bigint base = 0 out = 0;
+    char out = 0;
+    while (num > 0)
+    {
+        out++;
+        num -= 1;
+    }
+    return out;
+}
+
+
+//binary to decimal
+bigint toDec(std::string num)
+{
+    bigint current = 1, out = 0;
     for (long long i = num.size() - 1; i >= 0; --i) 
     {
         if (num[i] == '1')
         {
-            out +=
-    } 
+            out += current;
+        }
+        current *= 2;
+    }
+    return out;
 }
+
+//decimal to base 96
+std::string to95(bigint num)
+{
+    std::string out;
+    char remainder;
+    while (num > 0)
+    {
+        if (num < 96)
+        {
+            remainder = bigToChar(num);
+            out.push_back(remainder + 32);
+            num = 0;
+        }
+        else
+        {
+            remainder = bigToChar(num % 96);
+            num /= 96;
+            out.push_back(remainder + 32);
+        }
+        std::reverse(out.begin(), out.end());
+        
+}
+
 
 
 // print a vector (bool)
@@ -354,7 +394,9 @@ int main()
     std::system(conClear);
     if (value)
     {
-        genUnfiltered();
+        std::cin >> str;
+        std::cout << to95(toDec(str)) << std::endl;
+        
     }
     else
     {
