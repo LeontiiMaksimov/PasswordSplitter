@@ -18,10 +18,12 @@
 //binary to decimal
 bigint toDec(std::vector<bool> num);
 {
-    bigint base = 1, out = 0;
-    for (long long ) 
+    bigint base = 0 out = 0;
+    for (long long i = num.size() - 1; i >= 0; --i) 
     {
-        if (i
+        if (num[i] == '1')
+        {
+            out +=
     } 
 }
 
