@@ -5,6 +5,7 @@
 #include <random>
 #include <map>
 #include <functional>
+#include "bigint.h"
 
 #ifdef __unix__
     #define conClear "clear"
@@ -14,8 +15,16 @@
     #define conClear "cls"
 #endif
 
-// decimal to binary 
-// here
+//binary to decimal
+bigint toDec(std::vector<bool> num);
+{
+    bigint base = 1, out = 0;
+    for (long long ) 
+    {
+        if (i
+    } 
+}
+
 
 // print a vector (bool)
 void printVec(const std::vector<bool>& vec)
