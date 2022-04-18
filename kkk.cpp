@@ -56,14 +56,14 @@ std::string to96(bigint num)
         if (num < base)
         {
             remainder = bigToChar(num);
-            out.push_back(remainder + 33);
+            out.push_back(remainder + 32);
             num = 0;
         }
         else
         {
             remainder = bigToChar(num % base);
             num /= base;
-            out.push_back(remainder + 33);
+            out.push_back(remainder + 32);
         }
     }
     std::reverse(out.begin(), out.end());
