@@ -44,26 +44,26 @@ bigint toDec(std::vector<bool> num)
     return out;
 }
 
-//decimal to base 96
+//decimal to base 95
 std::string to96(bigint num)
 {
     std::string out;
     char remainder;
     bigint zero = 0;
-    bigint base = 96;
+    bigint base = 95;
     while (num > base)
     {
         if (num < base)
         {
             remainder = bigToChar(num);
-            out.push_back(remainder + 32);
+            out.push_back(remainder + 33);
             num = 0;
         }
         else
         {
             remainder = bigToChar(num % base);
-            num /= 96;
-            out.push_back(remainder + 32);
+            num /= base;
+            out.push_back(remainder + 33);
         }
     }
     std::reverse(out.begin(), out.end());
