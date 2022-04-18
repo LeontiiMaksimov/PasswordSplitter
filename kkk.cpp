@@ -30,12 +30,12 @@ char bigToChar(bigint num)
 
 
 //binary to decimal
-bigint toDec(std::string num)
+bigint toDec(std::vector<bool> num)
 {
     bigint current = 1, out = 0;
     for (long long i = num.size() - 1; i >= 0; --i)
     {
-        if (num[i] == '1')
+        if (num[i] == 1)
         {
             out += current;
         }
@@ -45,7 +45,7 @@ bigint toDec(std::string num)
 }
 
 //decimal to base 96
-std::string to95(bigint num)
+std::string to96(bigint num)
 {
     std::string out;
     char remainder;
@@ -357,7 +357,7 @@ std::string to95(bigint num)
     }
 
     // generate keys (not filtered) **optimize + dont save**
-    void genUnfilteredDec()
+    void genUnfilteredChar()
     {
         long long n;
         std::string password;
@@ -385,7 +385,8 @@ std::string to95(bigint num)
         keys[0] = xorVec(toVec(password), parentVec);
         for (std::vector<bool> elem : keys)
         {
-            printVec(elem);
+            std::cout << to96(toDec(elem)) << std::endl;
+            std::cout << std::endl;
         }
     }
 
@@ -398,8 +399,7 @@ std::string to95(bigint num)
         std::system(conClear);
         if (value)
         {
-            std::cin >> str;
-            std::cout << to95(toDec(str)) << std::endl;
+            genUnfilteredChar();
 
         }
         else
