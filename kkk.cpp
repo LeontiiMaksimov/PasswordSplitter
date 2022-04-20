@@ -45,7 +45,7 @@ bigint toDec(std::vector<bool> num)
 }
 
 //decimal to base 95
-std::string to96(bigint num)
+std::string to95(bigint num)
 {
     std::string out;
     char remainder;
@@ -357,7 +357,7 @@ std::string to96(bigint num)
     }
 
     // generate keys (not filtered) **optimize + dont save**
-    void genUnfilteredChar()
+    void encrypt()
     {
         long long n;
         std::string password;
@@ -385,7 +385,7 @@ std::string to96(bigint num)
         keys[0] = xorVec(toVec(password), parentVec);
         for (std::vector<bool> elem : keys)
         {
-            std::cout << to96(toDec(elem)) << std::endl;
+            std::cout << to95(toDec(elem)) << std::endl;
             std::cout << std::endl;
         }
     }
@@ -399,7 +399,7 @@ std::string to96(bigint num)
         std::system(conClear);
         if (value)
         {
-            genUnfilteredChar();
+            encrypt();
 
         }
         else
