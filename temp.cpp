@@ -332,17 +332,7 @@ void decrypt()
     {
         std::cin >> subPas;
         tempVal = bigToBin(from95ToDec(subPas));
-        for (char elem : tempVal)
-        {
-            if (elem == 0)
-            {
-                keys[i].push_back(0);
-            }
-            else
-            {
-                keys[i].push_back(1);
-            }
-        }
+        keys[i] = tempVal;
     }
     for (std::vector<bool> elem : keys)
     {
@@ -351,9 +341,9 @@ void decrypt()
             maxSize = elem.size();
         }
     }
-    for (std::vector<bool> elem : keys)
+    for (std::vector<bool>& elem : keys)
     {
-        if (elem.size() < maxSize)
+        while (elem.size() < maxSize)
         {
             elem.push_back(0);
         }
@@ -364,6 +354,7 @@ void decrypt()
         out = xorVec(out, keys[i]);
     }
     std::cout << toStr(out) << std::endl;
+    //std::cout << toStr(out) << std::endl;
 }
 
 // decrypt {input - decimal number} finish 
