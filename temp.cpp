@@ -318,8 +318,8 @@ void genUnfiltered()
 // decrypt **optimize + dont save**
 void decrypt()
 {
-    long long n;
-    std::string password;
+    long long n, maxSize = 0;
+    std::string password, subPas;
     std::vector<std::vector<bool>> keys;
     std::vector<bool> out;
     std::string tempVal;
@@ -330,7 +330,8 @@ void decrypt()
     std::cout << "Enter all keys seperated by a space or enter" << std::endl;
     for (long long i = 0; i < n; ++i)
     {
-        std::cin >> tempVal;
+        std::cin >> subPas;
+        tempVal = bigToBin(from95ToDec(subPas));
         for (char elem : tempVal)
         {
             if (elem == '0')
@@ -341,6 +342,20 @@ void decrypt()
             {
                 keys[i].push_back(1);
             }
+        }
+    }
+    for (std::vector<bool> elem : keys)
+    {
+        if (elem.size() > maxSize)
+        {
+            maxSize = elem.size();
+        }
+    }
+    for (std::vector<bool> elem : keys)
+    {
+        if (elem.size() < maxSize)
+        {
+            elem.push_back(0);
         }
     }
     out = keys[0];
@@ -431,9 +446,7 @@ int main()
     std::system(conClear);
     if (value)
     {
-        std::cin >> str;
-        std::cout << to95(toDec(bigToBin(from95ToDec(str)))) << std::endl;
-
+        encrypt();
     }
     else
     {
