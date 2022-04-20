@@ -322,7 +322,7 @@ void decrypt()
     std::string password, subPas;
     std::vector<std::vector<bool>> keys;
     std::vector<bool> out;
-    std::string tempVal;
+    std::vector<bool> tempVal;
     std::cout << "Enter how many sub-passwords you have [min = 2]" << std::endl;
     std::cin >> n;
     keys.resize(n);
@@ -334,7 +334,7 @@ void decrypt()
         tempVal = bigToBin(from95ToDec(subPas));
         for (char elem : tempVal)
         {
-            if (elem == '0')
+            if (elem == 0)
             {
                 keys[i].push_back(0);
             }
