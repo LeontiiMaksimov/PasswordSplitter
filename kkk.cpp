@@ -15,6 +15,19 @@
 #define conClear "cls"
 #endif
 
+
+// base 95 to decimal
+bigint from95ToDec(std::string num)
+{
+    bigint power = 1, out = 0;
+    for (long long i = num.size() - 1; i >= 0; --i)
+    {
+        out += num[i] * power;
+        power *= 95;
+    }
+    return out;
+}
+
 //bigint to char
 char bigToChar(bigint num)
 {
