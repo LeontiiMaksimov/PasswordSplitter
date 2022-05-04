@@ -6,7 +6,7 @@
 #include <map>
 #include <functional>
 #include "bigint.h" // <3
-
+//PUSHBACKS PUSH FROM RIGHT
 #ifdef __unix__
 #define conClear "clear"
 #endif
@@ -76,6 +76,7 @@ char bigToChar(bigint num)
 //binary to decimal
 bigint toDec(std::vector<bool> num)
 {
+    printVec(num);
     bigint current = 1, out = 0;
     for (long long i = num.size() - 1; i >= 0; --i)
     {
@@ -95,7 +96,7 @@ std::string to95(bigint num)
     char remainder;
     bigint zero = 0;
     bigint base = 95;
-    while (num > base)
+    while (num > zero)
     {
         if (num < base)
         {
@@ -111,6 +112,7 @@ std::string to95(bigint num)
         }
     }
     std::reverse(out.begin(), out.end());
+    std::cout << out << std::endl;
     return out;
 }
 
@@ -399,6 +401,7 @@ void decryptDec()
 void encrypt()
 {
     long long n;
+    std::vector<bool> passwordBool;
     std::string password;
     std::vector<std::vector<bool>> keys;
     std::cout << "Enter how many sub-passwords you want [min = 2]" << std::endl;
@@ -418,8 +421,30 @@ void encrypt()
         }
         else
         {
+            while (parentVec.size() > keys[i].size())
+            {
+                keys[i].push_back(0);
+            }
+            while (parentVec.size() < keys[i].size())
+            {
+                parentVec.push_back(0);
+            }
             parentVec = xorVec(parentVec, keys[i]);
         }
+    }
+    passwordBool = toBin(from95ToDec(password));
+    while (passwordBool.size() < password.size() * 8)
+    {
+        passwordBool.push_back(0);
+    }
+    printVec(passwordBool);
+    while (passwordBool.size() < parentVec.size())
+    {
+        passwordBool.push_back(0);
+    }
+    while (passwordBool.size() > parentVec.size())
+    {
+        parentVec.push_back(0);
     }
     keys[0] = xorVec(toVec(password), parentVec);
     for (std::vector<bool> elem : keys)
