@@ -101,14 +101,18 @@ std::string to95(bigint num)
         if (num < base)
         {
             remainder = bigToChar(num);
+            std::reverse(out.begin(), out.end());
             out.push_back(remainder + 33);
+            std::reverse(out.begin(), out.end());
             num = 0;
         }
         else
         {
             remainder = bigToChar(num % base);
             num /= base;
+            std::reverse(out.begin(), out.end());
             out.push_back(remainder + 33);
+            std::reverse(out.begin(), out.end());
         }
     }
     std::reverse(out.begin(), out.end());
@@ -350,7 +354,9 @@ void decrypt()
     {
         while (elem.size() < maxsize)
         {
-            elem.push_back(0);
+            std::reverse(elem.begin(), elem.end());
+            out.push_back(0);
+            std::reverse(elem.begin(), elem.end());
         }
     }
     out = keys[0];
@@ -358,7 +364,8 @@ void decrypt()
     {
         out = xorVec(out, keys[i]);
     }
-    std::cout << toStr(out) << std::endl;
+    printVec(out);
+    std::cout << to95(toDec(out)) << std::endl;
 }
 
 // decrypt {input - decimal number} finish 
@@ -394,7 +401,7 @@ void decryptDec()
     {
         out = xorVec(out, keys[i]);
     }
-    std::cout << toStr(out) << std::endl;
+    std::cout << to95(toDec(out)) << std::endl;
 }
 
 // generate keys (not filtered) **optimize + dont save**
@@ -421,32 +428,32 @@ void encrypt()
         }
         else
         {
-            while (parentVec.size() > keys[i].size())
-            {
-                keys[i].push_back(0);
-            }
-            while (parentVec.size() < keys[i].size())
-            {
-                parentVec.push_back(0);
-            }
             parentVec = xorVec(parentVec, keys[i]);
         }
     }
     passwordBool = toBin(from95ToDec(password));
     while (passwordBool.size() < password.size() * 8)
     {
+        std::reverse(passwordBool.begin(), passwordBool.end());
         passwordBool.push_back(0);
+        std::reverse(passwordBool.begin(), passwordBool.end());
     }
     printVec(passwordBool);
     while (passwordBool.size() < parentVec.size())
     {
+        std::reverse(passwordBool.begin(), passwordBool.end());
         passwordBool.push_back(0);
+        std::reverse(passwordBool.begin(), passwordBool.end());
     }
     while (passwordBool.size() > parentVec.size())
     {
-        parentVec.push_back(0);
+        std::reverse(passwordBool.begin(), passwordBool.end());
+        passwordBool.push_back(0);
+        std::reverse(passwordBool.begin(), passwordBool.end());
     }
     keys[0] = xorVec(toVec(password), parentVec);
+    printVec(toVec(password));
+    printVec(parentVec);
     for (std::vector<bool> elem : keys)
     {
         std::cout << to95(toDec(elem)) << std::endl;
