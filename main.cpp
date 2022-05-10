@@ -477,6 +477,7 @@ void encrypt()
 
 int main()
 {
+    std::system(conClear);
     std::string str;
     std::cout << "Enter 0 to make decrypt password and 1 to encrypt it" << std::endl;
     bool value;
