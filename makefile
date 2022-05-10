@@ -1,16 +1,17 @@
 OBJS	= main.o
 SOURCE	= main.cpp
-HEADER	= bigint.h rng.h
-OUT	= password_manager
+HEADER	= rng.h bigint.h
+OUT	= password
+CC	 = g++
+FLAGS	 = -g -c
 LFLAGS	 = 
 
-all: password_manager
+all: $(OBJS)
+	$(CC) -g $(OBJS) -o $(OUT) $(LFLAGS)
 
-password_manager: $(OBJS)
-	$(CC) -o $@ $^ $(LFLAGS)
+main.o: main.cpp
+	$(CC) $(FLAGS) main.cpp 
 
-%.o: %.c $(HEADER)
-	$(CC) -c -o $@ $< $(LFLAGS)
 
 clean:
 	rm -f $(OBJS) $(OUT)
