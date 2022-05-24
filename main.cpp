@@ -2,13 +2,9 @@
 #include <string>
 #include <vector> 
 #include <algorithm>
-#include <random>
-#include <map>
-#include <functional>
 #include "bigint.h" // <3
 #include "rng.h"
 
-//PUSHBACKS PUSH FROM RIGHT
 #ifdef __unix__
 #define conClear "clear"
 #endif
@@ -18,7 +14,7 @@
 #endif
 
 // bolean vector -> char
-char toChar(const std::vector<bool>& vec)
+char toChar(std::vector<bool>& vec)
 {
     short int i = 128;
     char out = 0;
@@ -34,7 +30,7 @@ char toChar(const std::vector<bool>& vec)
 }
 
 // convert vector (bool) to str via ascii lookup
-std::string toStrAscii(std::vector<bool> vec)
+std::string toStrAscii(const std::vector<bool>& vec)
 {
     std::string str = "";
     std::vector<bool> letter(0);
@@ -85,7 +81,7 @@ std::vector<bool> toBin(bigint num)
 }
 
 // base 94 to decimal
-bigint from94ToDec(std::string num)
+bigint from94ToDec(const std::string& num)
 {
     bigint power = 1, out = 0;
     for (long long i = 0; i < num.size(); ++i)
@@ -111,7 +107,7 @@ char bigToChar(bigint num)
 
 
 //binary to decimal
-bigint toDec(std::vector<bool> num)
+bigint toDec(const std::vector<bool>& num)
 {
     bigint current = 1, out = 0;
     for (long long i = num.size() - 1; i >= 0; --i)
@@ -155,27 +151,6 @@ std::string to94(bigint num)
     return out;
 }
 
-
-
-
-// find a complementary vector to XOR to the resultant
-std::vector<bool> compVec(const std::vector<bool>& finalVec, const std::vector<bool>& parentVec)
-{
-    std::vector<bool> out(parentVec.size());
-    for (long long i = 0; i < out.size(); ++i)
-    {
-        if (parentVec[i] ^ 0 == finalVec[i])
-        {
-            out[i] = 0;
-        }
-        else
-        {
-            out[i] = 1;
-        }
-    }
-    return out;
-}
-
 // XOR vector operation
 std::vector<bool> xorVec(const std::vector<bool>& vec1, const std::vector<bool>& vec2)
 {
@@ -211,18 +186,6 @@ std::string toStr(const std::vector<bool>& vec)
     return out;
 }
 
-// check if the char is valid
-bool validVec(const std::vector<bool>& vec)
-{
-    char letter;
-    letter = toChar(vec);
-    if (letter < 127 && letter > 31)
-    {
-        return true;
-    }
-    return false;
-}
-
 // random boolean value generator
 bool randomBool()
 {
@@ -231,7 +194,7 @@ bool randomBool()
     return gen() % 2;
 }
 
-// random value generator (no filter)
+// random value generator
 std::vector<bool> genVec(long long len)
 {
     std::vector<bool> vector;
@@ -243,33 +206,8 @@ std::vector<bool> genVec(long long len)
     return vector;
 }
 
-// random value generator filtered **make more efficient**
-std::vector<bool> genVecFiltered(long long len)
-{
-    long long batch = len / 8;
-    std::vector<bool> batchVec(8, 0);
-    std::vector<bool> vector;
-    vector.resize(len);
-    for (long long i = 0; i < len / 8; ++i)
-    {
-        while (!validVec(batchVec))
-        {
-            for (long long j = 1; j < 8; ++j)
-            {
-                batchVec[j] = randomBool();
-            }
-        }
-        for (bool elem : batchVec)
-        {
-            vector.push_back(elem);
-        }
-        std::fill(batchVec.begin(), batchVec.end(), 0);
-    }
-    return vector;
-}
-
 // char -> boolean vector
-std::vector<bool> toBinary(char m)
+std::vector<bool> toBinary(const char& m)
 {
     short int n = static_cast <short int>(m);
     std::vector <bool> vec;
@@ -309,39 +247,6 @@ std::vector<bool> toVec(const std::string& str)
         }
     }
     return out;
-}
-
-// generate keys (not filtered) **optimize + dont save**
-void genUnfiltered()
-{
-    long long n;
-    std::string password;
-    std::vector<std::vector<bool>> keys;
-    std::cout << "Enter how many sub-passwords you want [min = 2]" << std::endl;
-    std::cin >> n;
-    keys.resize(n);
-    std::system(conClear);
-    std::cout << "Enter the password" << std::endl;
-    std::cin >> password;
-    std::system(conClear);
-    std::vector<bool> parentVec(password.size() * 8);
-    for (int i = 1; i < n; ++i)
-    {
-        keys[i] = genVec(password.size() * 8);
-        if (i == 1)
-        {
-            parentVec = keys[1];
-        }
-        else
-        {
-            parentVec = xorVec(parentVec, keys[i]);
-        }
-    }
-    keys[0] = compVec(toVec(password), parentVec);
-    for (std::vector<bool> elem : keys)
-    {
-        printVec(elem);
-    }
 }
 
 // decrypt **optimize + dont save**
@@ -389,42 +294,6 @@ void decrypt()
         out = xorVec(out, keys[i]);
     }
     std::cout << toStrAscii(out) << std::endl;
-}
-
-// decrypt {input - decimal number} finish 
-void decryptDec()
-{
-    long long n;
-    std::string password;
-    std::vector<std::vector<bool>> keys;
-    std::vector<bool> out;
-    std::string tempVal;
-    std::cout << "Enter how many sub-passwords you have [min = 2]" << std::endl;
-    std::cin >> n;
-    keys.resize(n);
-    std::system(conClear);
-    std::cout << "Enter all keys seperated by a space or enter" << std::endl;
-    for (long long i = 0; i < n; ++i)
-    {
-        std::cin >> tempVal;
-        for (char elem : tempVal)
-        {
-            if (elem == '0')
-            {
-                keys[i].push_back(0);
-            }
-            else
-            {
-                keys[i].push_back(1);
-            }
-        }
-    }
-    out = keys[0];
-    for (int i = 1; i < n; ++i)
-    {
-        out = xorVec(out, keys[i]);
-    }
-    //std::cout << toVec(out) << std::endl;
 }
 
 // generate keys (not filtered) **optimize + dont save**
